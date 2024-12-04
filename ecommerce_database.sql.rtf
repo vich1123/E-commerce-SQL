@@ -1,0 +1,68 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2818
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 CREATE TABLE customers (\
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,\
+    name VARCHAR(100) NOT NULL,\
+    email VARCHAR(100) UNIQUE NOT NULL,\
+    phone VARCHAR(15),\
+    address TEXT,\
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\
+);\
+\
+INSERT INTO customers (name, email, phone, address)\
+VALUES \
+('Gopal', 'gopal@gmail.com', '7779995550', '123 Main St'),\
+('Rahul', 'rahul@yahoo.com', '8889995550', '456 Maple Ave'),\
+('Priya', 'priya@hotmail.com', '9998887776', '789 Oak Dr');\
+\
+\
+CREATE TABLE products (\
+    product_id INT AUTO_INCREMENT PRIMARY KEY,\
+    name VARCHAR(100) NOT NULL,\
+    description TEXT,\
+    price DECIMAL(10, 2) NOT NULL,\
+    stock INT DEFAULT 0,\
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\
+);\
+\
+INSERT INTO products (name, description, price, stock)\
+VALUES \
+('Laptop', 'A high-performance laptop', 1200.00, 10),\
+('Smartphone', 'Latest model smartphone', 800.00, 25),\
+('Headphones', 'Noise-cancelling headphones', 150.00, 50);\
+\
+\
+CREATE TABLE orders (\
+    order_id INT AUTO_INCREMENT PRIMARY KEY,\
+    customer_id INT,\
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\
+    total DECIMAL(10, 2) NOT NULL,\
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)\
+);\
+\
+INSERT INTO orders (customer_id, total)\
+VALUES \
+(1, 1250.00),\
+(2, 1600.00);\
+\
+CREATE TABLE order_items (\
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,\
+    order_id INT,\
+    product_id INT,\
+    quantity INT NOT NULL,\
+    price DECIMAL(10, 2) NOT NULL,\
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),\
+    FOREIGN KEY (product_id) REFERENCES products(product_id)\
+);\
+INSERT INTO order_items (order_id, product_id, quantity, price)\
+VALUES \
+(1, 1, 1, 1200.00),\
+(1, 3, 1, 50.00),\
+(2, 2, 2, 1600.00);\
+\
+}
